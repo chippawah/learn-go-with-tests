@@ -8,15 +8,11 @@ func Sum(numbers []int) int {
 	return sum
 }
 
-func SumAll(numSets ...[]int) (sumSet []int) {
-	for _, numSet := range numSets {
-		sumSet = append(sumSet, Sum(numSet))
-	}
-	return
-}
-
 func SumAllTails(numSets ...[]int) (tailSumSet []int) {
 	for _, numSet := range numSets {
+		if len(numSet) == 0 {
+			numSet = []int{0}
+		}
 		tail := numSet[1:]
 		tailSumSet = append(tailSumSet, Sum(tail))
 	}
