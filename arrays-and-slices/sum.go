@@ -9,10 +9,8 @@ func Sum(numbers []int) int {
 }
 
 func SumAll(numSets ...[]int) (sumSet []int) {
-	numSetLen := len(numSets)
-	sumSet = make([]int, numSetLen)
-	for idx, numSet := range numSets {
-		sumSet[idx] = Sum(numSet)
+	for _, numSet := range numSets {
+		sumSet = append(sumSet, Sum(numSet))
 	}
 	return
 }
