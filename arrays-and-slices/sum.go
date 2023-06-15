@@ -14,3 +14,11 @@ func SumAll(numSets ...[]int) (sumSet []int) {
 	}
 	return
 }
+
+func SumAllTails(numSets ...[]int) (tailSumSet []int) {
+	for _, numSet := range numSets {
+		tail := numSet[1:]
+		tailSumSet = append(tailSumSet, Sum(tail))
+	}
+	return
+}

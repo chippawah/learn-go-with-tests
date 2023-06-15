@@ -6,15 +6,13 @@ import (
 )
 
 func TestSum(t *testing.T) {
-	t.Run("it should sum a collection of any size", func(t *testing.T) {
-		numbers := []int{1, 2, 3}
+	numbers := []int{1, 2, 3}
 
-		got := Sum(numbers)
-		want := 6
-		if got != want {
-			t.Errorf("got %d want %d given, %v", got, want, numbers)
-		}
-	})
+	got := Sum(numbers)
+	want := 6
+	if got != want {
+		t.Errorf("got %d want %d given, %v", got, want, numbers)
+	}
 }
 
 func TestSumAll(t *testing.T) {
@@ -24,6 +22,14 @@ func TestSumAll(t *testing.T) {
 	got := SumAll(numSetA, numSetB, numSetC)
 	want := []int{2, 3, 6}
 
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %d want %d", got, want)
+	}
+}
+
+func TestSumAllTails(t *testing.T) {
+	got := SumAllTails([]int{1, 2}, []int{0, 9})
+	want := []int{2, 9}
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %d want %d", got, want)
 	}
