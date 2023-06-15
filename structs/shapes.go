@@ -11,22 +11,29 @@ type Rectangle struct {
 	Height float64
 }
 
-func (rectangle Rectangle) Area() float64 {
-	return (rectangle.Width * rectangle.Height)
+func (r Rectangle) Area() float64 {
+	return (r.Width * r.Height)
 }
-
-func (rectangle Rectangle) Perimeter() float64 {
-	return 2 * (rectangle.Width + rectangle.Height)
+func (r Rectangle) Perimeter() float64 {
+	return 2 * (r.Width + r.Height)
 }
 
 type Circle struct {
 	Radius float64
 }
 
-func (circle Circle) Area() float64 {
-	return math.Pi * math.Pow(circle.Radius, 2)
+func (c Circle) Area() float64 {
+	return math.Pi * math.Pow(c.Radius, 2)
+}
+func (c Circle) Perimeter() float64 {
+	return 2 * math.Pi * c.Radius
 }
 
-func (circle Circle) Circumference() float64 {
-	return 2 * math.Pi * circle.Radius
+type Triangle struct {
+	Base   float64
+	Height float64
+}
+
+func (t Triangle) Area() float64 {
+	return (t.Base * t.Height) * 0.5
 }
