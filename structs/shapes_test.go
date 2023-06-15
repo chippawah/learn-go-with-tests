@@ -3,24 +3,22 @@ package structs
 import "testing"
 
 func TestArea(t *testing.T) {
-	checkArea := func(t *testing.T, shape Shape, want float64) {
-		t.Helper()
-		got := shape.Area()
-		if got != want {
-			t.Errorf("got %g want %g", got, want)
+	areaTests := []struct {
+		shape Shape
+		want  float64
+	}{
+		{Rectangle{12, 6}, 72.0},
+		{Circle{10}, 314.1592653589793},
+	}
+	for _, tableTest := range areaTests {
+		got := tableTest.shape.Area()
+		if got != tableTest.want {
+			t.Errorf("got %g want %g", got, tableTest.want)
 		}
 	}
-	t.Run("rectangle", func(t *testing.T) {
-		rectangle := Rectangle{10.0, 10.0}
-		want := 100.0
-		checkArea(t, rectangle, want)
-	})
-	t.Run("circle", func(t *testing.T) {
-		circle := Circle{10.0}
-		want := 314.1592653589793
-		checkArea(t, circle, want)
-	})
 }
+
+// Here it doesn't make as much sense to do a table based test because the method names are different
 
 func TestPerimeter(t *testing.T) {
 	checkResult := func(t *testing.T, got, want float64) {
