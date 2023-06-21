@@ -2,17 +2,18 @@ package main
 
 type Dictionary map[string]string
 
-const (
-	ErrNotFound         = DictionaryErr("word not found in dictionary")
-	ErrWordExists       = DictionaryErr("the word already exists in the dictionary")
-	ErrWordDoesNotExist = DictionaryErr("the word does not exist in the dictionary")
-)
-
+// This is an error wrapper pattern to give more explicit and immutable error types
 type DictionaryErr string
 
 func (e DictionaryErr) Error() string {
 	return string(e)
 }
+
+const (
+	ErrNotFound         = DictionaryErr("word not found in dictionary")
+	ErrWordExists       = DictionaryErr("the word already exists in the dictionary")
+	ErrWordDoesNotExist = DictionaryErr("the word does not exist in the dictionary")
+)
 
 func (d Dictionary) Search(word string) (string, error) {
 	defintion, ok := d[word]
