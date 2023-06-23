@@ -23,8 +23,6 @@ func (d DefaultSleeper) Sleep() {
 func Countdown(writer io.Writer, sleeper Sleeper) {
 	for i := startingCount; i > 0; i-- {
 		fmt.Fprintln(writer, i)
-	}
-	for i := startingCount; i > 0; i-- {
 		sleeper.Sleep()
 	}
 	fmt.Fprint(writer, finalWord)
