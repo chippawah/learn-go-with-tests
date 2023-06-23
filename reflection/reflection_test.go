@@ -11,6 +11,16 @@ type TableTestCase struct {
 	ExpectedCalls []string
 }
 
+type BankAccount struct {
+	Amount   int
+	Currency string
+}
+
+type Person struct {
+	Name    string
+	Account BankAccount
+}
+
 func TestWalk(t *testing.T) {
 	cases := []TableTestCase{
 		{
@@ -36,6 +46,30 @@ func TestWalk(t *testing.T) {
 			}{"Foo", 33},
 			ExpectedCalls: []string{"Foo"},
 		},
+		{
+			Name: "non-flat structs",
+			Input: Person{
+				Name: "Foobarius",
+				Account: BankAccount{
+					Amount:   10,
+					Currency: "BTC",
+				},
+			},
+			ExpectedCalls: []string{"Foobarius", "BTC"},
+		},
+		// {
+		// 	Name: "slices",
+		// 	Input: []Person{
+		// 		{
+		// 			Name: "Chase Bank",
+		// 			Account: BankAccount{
+		// 				Amount:   500,
+		// 				Currency: "USD",
+		// 			},
+		// 		},
+		// 	},
+		// 	ExpectedCalls: []string{"Chase Bank", "USD"},
+		// },
 	}
 	for _, testCase := range cases {
 		t.Run(testCase.Name, func(t *testing.T) {
