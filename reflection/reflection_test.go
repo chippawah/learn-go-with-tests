@@ -47,7 +47,7 @@ func TestWalk(t *testing.T) {
 			ExpectedCalls: []string{"Foo"},
 		},
 		{
-			Name: "non-flat structs",
+			Name: "nested structs",
 			Input: Person{
 				Name: "Foobarius",
 				Account: BankAccount{
@@ -57,19 +57,27 @@ func TestWalk(t *testing.T) {
 			},
 			ExpectedCalls: []string{"Foobarius", "BTC"},
 		},
-		// {
-		// 	Name: "slices",
-		// 	Input: []Person{
-		// 		{
-		// 			Name: "Chase Bank",
-		// 			Account: BankAccount{
-		// 				Amount:   500,
-		// 				Currency: "USD",
-		// 			},
-		// 		},
-		// 	},
-		// 	ExpectedCalls: []string{"Chase Bank", "USD"},
-		// },
+		{
+			Name: "pointers to things",
+			Input: &Person{
+				"Foobarius",
+				BankAccount{10, "USD"},
+			},
+			ExpectedCalls: []string{"Foobarius", "USD"},
+		},
+		{
+			Name: "slices",
+			Input: []Person{
+				{
+					Name: "Chase Bank",
+					Account: BankAccount{
+						Amount:   500,
+						Currency: "USD",
+					},
+				},
+			},
+			ExpectedCalls: []string{"Chase Bank", "USD"},
+		},
 	}
 	for _, testCase := range cases {
 		t.Run(testCase.Name, func(t *testing.T) {
