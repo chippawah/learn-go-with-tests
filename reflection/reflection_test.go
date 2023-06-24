@@ -110,6 +110,38 @@ func TestWalk(t *testing.T) {
 		assertValContained(t, "Bar", got)
 		assertValContained(t, "Tar", got)
 	})
+	t.Run("channels", func(t *testing.T) {
+		aChannel := make(chan BankAccount)
+		go func() {
+			aChannel <- BankAccount{10, "USD"}
+			aChannel <- BankAccount{10, "BTC"}
+			close(aChannel)
+		}()
+		var got []string
+		want := []string{"USD", "BTC"}
+		walk(aChannel, func(input string) {
+			got = append(got, input)
+		})
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v but wanted %v", got, want)
+		}
+	})
+	t.Run("functions", func(t *testing.T) {
+		aFunc := func() []BankAccount {
+			return []BankAccount{
+				{10, "USD"},
+				{20, "EUR"},
+			}
+		}
+		var got []string
+		want := []string{"USD", "EUR"}
+		walk(aFunc, func(input string) {
+			got = append(got, input)
+		})
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("got %v but wanted %v", got, want)
+		}
+	})
 }
 
 func assertValContained(t testing.TB, val string, slice []string) {
