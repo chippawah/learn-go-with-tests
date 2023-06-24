@@ -78,6 +78,22 @@ func TestWalk(t *testing.T) {
 			},
 			ExpectedCalls: []string{"Chase Bank", "USD"},
 		},
+		{
+			Name: "arrays",
+			Input: [2]BankAccount{
+				{10, "USD"},
+				{10, "GBP"},
+			},
+			ExpectedCalls: []string{"USD", "GBP"},
+		},
+		{
+			Name: "maps",
+			Input: map[string]string{
+				"Foo": "Bar",
+				"Tap": "Tar",
+			},
+			ExpectedCalls: []string{"Bar", "Tar"},
+		},
 	}
 	for _, testCase := range cases {
 		t.Run(testCase.Name, func(t *testing.T) {
