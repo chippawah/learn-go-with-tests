@@ -99,12 +99,10 @@ func TestWalk(t *testing.T) {
 			"Foo": "Bar",
 			"Tap": "Tar",
 		}
-		var got []string
-		walk(aMap, func(input string) {
-			got = append(got, input)
-		})
-		assertValContained(t, "Bar", got)
-		assertValContained(t, "Tar", got)
+		var got testValueCatcher
+		walk(aMap, returnAppenderFunc(&got))
+		assertValContained(t, "Bar", got.values)
+		assertValContained(t, "Tar", got.values)
 	})
 	t.Run("channels", func(t *testing.T) {
 		aChannel := make(chan BankAccount)
