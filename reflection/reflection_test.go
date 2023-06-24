@@ -89,11 +89,9 @@ func TestWalk(t *testing.T) {
 	}
 	for _, testCase := range cases {
 		t.Run(testCase.Name, func(t *testing.T) {
-			var got []string
-			walk(testCase.Input, func(input string) {
-				got = append(got, input)
-			})
-			assertWithDeepEqual(t, got, testCase.ExpectedCalls)
+			var got testValueCatcher
+			walk(testCase.Input, returnAppenderFunc(&got))
+			assertWithDeepEqual(t, got.values, testCase.ExpectedCalls)
 		})
 	}
 	t.Run("maps", func(t *testing.T) {
@@ -115,7 +113,7 @@ func TestWalk(t *testing.T) {
 			aChannel <- BankAccount{10, "BTC"}
 			close(aChannel)
 		}()
-		var got struct{ values []string }
+		var got testValueCatcher
 		want := []string{"USD", "BTC"}
 		walk(aChannel, returnAppenderFunc(&got))
 		assertWithDeepEqual(t, got.values, want)
@@ -127,14 +125,16 @@ func TestWalk(t *testing.T) {
 				{20, "EUR"},
 			}
 		}
-		var got struct{ values []string }
+		var got testValueCatcher
 		want := []string{"USD", "EUR"}
 		walk(aFunc, returnAppenderFunc(&got))
 		assertWithDeepEqual(t, got.values, want)
 	})
 }
 
-func returnAppenderFunc(slice *struct{ values []string }) func(string) {
+type testValueCatcher struct{ values []string }
+
+func returnAppenderFunc(slice *testValueCatcher) func(string) {
 	return func(input string) {
 		slice.values = append(slice.values, input)
 	}
